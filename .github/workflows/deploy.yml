@@ -57,16 +57,14 @@ jobs:
           distribution: microsoft
           java-version: 25
 
-      - name: Setup gradle
-        uses: gradle/actions/setup-gradle@v5
+      - name: gradle build bindings
+        run: ./gradlew :bindings:generateNativesSources
 
-      - name: Build natives
-        run: ./gradlew --info --no-daemon :natives:assemble
-      - name: Upload JVM crash logs
-        if: matrix.os == 'windows-11-arm' && !cancelled()
-        uses: actions/upload-artifact@v7
-        with:
-          path: C:/a/cnmcu/cnmcu/*.log
+      - name: cmake build
+        run: cd natives && mkdir -p build/bin
+            && cmake -B build -S src
+            && cmake --build build --config Release
+            && cmake --install build --prefix build/bin
 
       - name: Upload natives
         uses: actions/upload-artifact@v6
