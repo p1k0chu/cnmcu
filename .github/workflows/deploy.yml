@@ -62,6 +62,11 @@ jobs:
 
       - name: Build natives
         run: ./gradlew --info --no-daemon :natives:assemble
+      - name: Upload JVM crash logs
+        if: matrix.os == 'windows-11-arm' && !cancelled()
+        uses: actions/upload-artifact@v7
+        with:
+          path: C:/a/cnmcu/cnmcu/*.log
 
       - name: Upload natives
         uses: actions/upload-artifact@v6
