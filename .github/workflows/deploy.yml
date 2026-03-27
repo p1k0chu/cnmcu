@@ -61,7 +61,7 @@ jobs:
         uses: gradle/actions/setup-gradle@v5
 
       - name: Build natives
-        run: ./gradlew --no-daemon :natives:assemble
+        run: ./gradlew --info --no-daemon :natives:assemble
 
       - name: Upload natives
         uses: actions/upload-artifact@v6
